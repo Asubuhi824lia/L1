@@ -1,5 +1,6 @@
 
 /* Вычисление всех простых чисел до числа N */
+//(может быть как частью primNumbs(), так и её заменой)
 // /*  Возвращает результат 
 function primNums(N) {
     //
@@ -110,11 +111,11 @@ function fibNums(N) {
     let fibs = [0, 1]
 
     // замыкание на локальном массиве и индексе
-    const addFibNum = (i) => {
-        fibs.push( fibs[i-1] + fibs[i-2] )
+    const getFibNum = (i) => {
+        return fibs[i-1] + fibs[i-2]
     }
 
-    for(let i = 2; i < N; i++) addFibNum(i)
+    for(let i = 2; getFibNum(i) <= N; i++) fibs.push( getFibNum(i) )
 
     return fibs;
 }
@@ -141,28 +142,9 @@ function fib(N) {
 
 
 
-
-/* console - тестинг */
-
-const getPrimNum = primN()      // получен локальный getPrimes(N: Number)
-console.log(11, getPrimNum(11))
-console.log(15, getPrimNum(15))
-console.log(7, getPrimNum(7))
-console.log(10, primN()(10))
-
-
-const getPrimNums = primNumbs() // получен локальный getPrimes(N: Number)
-console.log(getPrimNums(11))
-console.log(getPrimNums(15))
-console.log(getPrimNums(7))
-console.log(10, primNumbs()(10))
-
-
-console.log(fibNums(11))
-console.log(fibNums(15))
-console.log(fibNums(7))
-
-
-console.log(fib(11))
-console.log(fib(15))
-console.log(fib(7))
+// export {
+//     getPrimNum,
+//     getPrimNums,
+//     fibNums,
+//     fib
+// }

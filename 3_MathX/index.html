@@ -5,8 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="./MathX.js"></script>
+    <script src="./index.js" defer></script>
+    <style>
+        main>section {
+            min-width: 240px;
+            max-width: 330px;
+        }
+        #primNumbsStatus, #fibNumbsStatus {
+            width: 240px;
+            display: flex;
+            flex-wrap: wrap;
+            line-height: 2;
+            margin-top: 16px;
+        }
+    </style>
 </head>
 <body>
+    <main style="display: flex; justify-content: space-around;">
+        <section>
+            <h1>Фибоначчи</h1>
+            <section><h4>Вычисление N-го числа <u>в ряду Фибоначчи Ф</u></h4>
+                <label for="InputText">Введите число N</label>
+                <form action="#" style="display: block;">
+                    <input type="number" min="0" id="fibNum"/>
+                    <input type="submit" id="checkFibNum"/>
+                </form>
+                <p id="fibNumStatus"> </p>
+            </section>
+            <section><h4>Вычисление всех чисел <u>в ряду Фибоначчи</u> до числа N</h4>
+                <label for="InputText">Введите число N</label>
+                <form action="#" style="display: block;">
+                    <input type="number" min="0" id="fibNumbs"/>
+                    <input type="submit" id="checkFibNumbs"/>
+                </form>
+                <div id="fibNumbsStatus"> </div>
+            </section>
+        </section>
     
+        <section>
+            <h1>Простое число</h1>
+            <section><h4>Вычисление N-го <u>простого числа</u></h4>
+                <label for="InputText">Введите число N</label>
+                <form action="#" style="display: block;">
+                    <input type="number" min="0" id="primNum"/>
+                    <input type="submit" id="checkPrimNum"/>
+                </form>
+                <p id="primNumStatus"> </p>
+            </section>
+            <section><h4>Вычисление всех <u>простых чисел</u> до числа N</h4>
+                <label for="InputText">Введите число N</label>
+                <form action="#" style="display: block;">
+                    <input type="number" min="0" id="primNumbs"/>
+                    <input type="submit" id="checkPrimNumbs"/>
+                </form>
+                <div id="primNumbsStatus"> </div>
+            </section>
+        </section>
+    </main>
 </body>
 </html>
