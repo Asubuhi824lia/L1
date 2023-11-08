@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passwd Analizer</title>
+    <script src="./index.js" defer></script>
+    <style>
+        form, label {
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        form>section {
+            margin-bottom: 20px;
+        }
+        label>label {
+            flex-direction: row;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <form action="#" id="userInfo">
+        <section>
+            <label>Электронная почта
+                <input type="email" id="email"/>
+            </label>
+            <label>Логин
+                <input type="text" id="login"/>
+            </label>
+            <label>Пароль
+                <input type="password" id="password"/>
+            </label>
+            <label>Аватарка
+                <input type="file" id="avatar" accept="image/*"/>
+            </label>
+        </section>
+
+        <section>
+            <label>Возраст
+                <input type="number" min="0" id="age"/>
+            </label>
+            <label>Дата рождения
+                <input type="date" id="birthday"/>
+            </label>
+            <label>Телефон
+                <input type="tel" id="tel">
+            </label>
+            <label>Уровень знания английского
+                <input type="range" min="0" max="6" title="0, A0, A1, B0, B1, C0, C1" id="eng-knowledge">
+            </label>
+        </section>
+
+        <section>
+            <label>Любимый цвет
+                <input type="color" id="favColor"/>
+            </label>
+            <label id="drink">Предпочитаемый напиток
+                <label><input type="checkbox" id="tea" name="tea">Чай</label>
+                <label><input type="checkbox" id="coffee" name="coffee">Кофе</label>
+                <label><input type="checkbox" id="mineral" name="mineral">Минералка</label>
+                <label><input type="checkbox" id="soda" name="soda">Газировка</label>
+                <label><input type="checkbox" id="mors" name="mors">Морс</label>
+                <label><input type="checkbox" id="cacao" name="cacao">Какао</label>
+            </label>
+            <label>Предпочитаемый месяц отдыха
+                <input type="month" id="rest-month">
+            </label>
+        </section>
+
+        <section>
+            <input type="reset"/>
+            <input type="submit"/>
+        </section>
+    </form>
+</body>
+</html>
