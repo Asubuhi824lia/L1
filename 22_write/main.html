@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document.write</title>
+</head>
+<body>
+    <script>
+        // Chrome - 21
+        function setWrite(call = 1) {
+            document.write(`<script>console.log(${call});setWrite(${call}+1)</scr`,`ipt>`)
+        }
+    </script>
+    <script>
+        setWrite()
+    </script>
+</body>
+</html>
