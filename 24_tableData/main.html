@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch to Table</title>
+    <script src="./index.js" async></script>
+    <style>
+        main {
+            display: grid;
+            grid-template-rows: repeat(2, auto);
+            row-gap: 20px;
+        }
+        #controls {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            column-gap: 10px;
+        }
+        #controls button {
+            height: 3em;
+            padding: 0 2em;
+        }
+        #tableInfo {
+            display: grid;
+            grid-template-columns: auto 38px;
+            column-gap: 20px;
+        }
+        table {border-collapse: collapse;}
+        th:first-child, td:first-child {
+            width: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        th, td {
+            width: 100px;
+            border: 1px solid black;
+            padding: 5px;
+        }
+        tr:nth-child(3n) {
+            background-color: #eaeaea;
+        }
+        #pagination {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+        }
+        .pag-selected {background-color: lightgray;} 
+        .pagNext, .pagNum {
+            width: 1em;
+            line-height: 1em;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .pagNum {
+            border: 1px solid black;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section id="controls">
+            <button id="increase">Сортировать по убыванию (А-Я)</button>
+            <button id="decrease">Сортировать по возрастанию(Я-А)</button>
+        </section>
+        <article id="tableInfo">
+            <table id="info">
+                <thead>
+                    <tr>
+                        <th>N</th>
+                        <th>fname</th>
+                        <th>lname</th>
+                        <th>tel</th>
+                        <th>address</th>
+                        <th>city</th>
+                        <th>state</th>
+                        <th>zip</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="loading"><th colspan="8">Loading...</th></tr>
+                </tbody>
+            </table>
+            <nav id="pagination"></nav>
+        </article>
+    </main>
+
+    <template id="tableRow">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </template>
+
+    <template id="pagNum">
+        <a class="pagNum"></a>
+    </template>
+</body>
+</html>
