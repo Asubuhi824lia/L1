@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max storage</title>
+</head>
+<body>
+    <script>
+
+        function getLocalStorageSizeMB() {
+
+            const MB_MIN = 4
+            const MB_MAX = 10
+            let MB
+
+            // Т.к. размер localStorage в диапазоне 5-10(МБ) - определяем наибольшую цифру
+            try {
+                for(MB = MB_MIN; MB <= 5; MB++) {
+            
+                    // создаём строку длиной 5 МБ (5 * 2^20 Б)
+                    // 1 буква = 1 байт
+
+                    checkData = Array(MB*Math.pow(10, 6)).fill('a').join('')
+                    localStorage.setItem('checkData', checkData)
+                    // console.log(new Blob([localStorage.getItem('checkData')]).size)
+                }
+            } finally {
+                return MB-1
+            }
+        }
+        function getLocalStorageSizeKB(MB) {
+            try {
+                // добавлять по 1 КБайт
+                for(let i=0; ; i++) {
+                    let addPart = Array(1000).fill('a').join('')
+                    checkData += addPart
+                    localStorage.setItem('checkData', checkData)
+
+                    console.log('+',addPart.length)
+                }
+            } finally {
+                return new Blob([localStorage.getItem('checkData')]).size/1000
+            }
+        }
+        
+        /* Chrome: финальный размер - 5_242_872 Б */
+        console.log(`Максимальный объём localStorage = ${getLocalStorageSizeKB(getLocalStorageSizeMB())} Килобайт`)
+    </script>
+</body>
+</html>
