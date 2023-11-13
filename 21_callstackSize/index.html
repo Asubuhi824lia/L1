@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script> /* Chrome */
+/// Размер Коллстека = (размер Execution Stack(N) + размер переменных в функции(K*sizeVar)) * кол-во вложенностей(calls)
+//  тип Nubmer занимает 64 бита => 8 (Байт)
+    /** Рассчёт размера Коллстека
+     * 
+     * вызовов (без переменных) X = (N + 0*sizeVar) * 12524 = N * 12524
+     * вызовов (1 переменная)   X = (N + 1*sizeVar) * 11386 = (N + 8) * 11386
+     * 
+     * N * 12524 = (N + 8) * 11386 => (12524 - 11386)N = 8 * 11386 => 1138 * N = 91088 => N = 91088/1138 = 80 (Байт)
+     * X = 12524 * 80 = 1002448.25 ~ 1 (МБ)
+     */
+
+//  Проверка
+     /** Рассчёт кол-ва вызовов при 2 Nubmer переменных в ф-ции
+      * 
+      * calls = X / (N + 2*sizeVar) = (12524 * 80[Б]) / (80[Б] + 2*8[Б]) ~ 10437
+      * Итог: 10437
+      */
+        let i = 0
+        function func() {
+            let firstVar  = i+1
+            let secondVar = i+1
+            i++
+            func()
+        }
+        try {func()} catch {console.log(i)}
+    </script>
+    <script>
+        let j = 0
+        function func() {
+            j++
+            func()
+        }
+        //Chrome:  12_524
+        //Firefox: 26_334
+        try {func()} catch {console.log(j)}
+    </script>
+<!-- Размеры коллстека в браузерах
+
+Chrome:  ~ 1 (МБ)
+    Execution Stack(N) ~ 80 Б
+Firefox: ~ 1.8 (МБ)
+    Execution Stack(N) ~ 72 Б
+
+-->
+</body>
+</html>
