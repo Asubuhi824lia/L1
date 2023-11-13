@@ -69,6 +69,10 @@ function getTab(tabSize) {
     return tab
 }
 function jsonToStr(json, tabSize = 0, lvl = 1) {
+    // Проверка на валидность JSON-а
+    if(typeof json !== 'object') return null;
+
+
     let tab = getTab(tabSize*lvl)
     let scopeTab = getTab(tabSize*(lvl-1))
     //нужен ли \n
