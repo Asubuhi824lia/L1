@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoCoding</title>
+    <script src="./index.js" defer></script>
+    <style>
+        main {
+            display: flex;
+            flex-direction: column;
+            width: 250px;
+        }
+        h3 {text-align: center;}
+        select {
+            overflow: hidden;
+            border: none;
+        }
+        input, option {
+            border: 1px solid rgb(133, 133, 133);
+        }
+        input {
+            height: 1.5em;
+        }
+        option {
+            border-top: none;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h3>Введите адрес</h3>
+        <input id="address" type="text"/>
+        <select id="suggestions" size="10"></select>
+    </main>
+</body>
+</html>
