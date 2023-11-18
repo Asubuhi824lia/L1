@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VK posts</title>
+    <script type="text/javascript" src="./getPosts.js"></script> <!-- Задать callback заранее -->
+    <script type="module" src="./index.js" defer></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            background-color: #EDEEF0;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            width: min(90%, 550px);
+        }
+        .post {
+            margin-top: 15px;
+            width: 500px;
+
+            border: 1px solid #DCE1E6;
+            border-radius: 15px;
+            background-color: white;
+            padding: 16px 20px;
+
+            box-shadow: 2px #818C99;
+        }
+        .post time {
+            color: #818C99;
+        }
+        .post p {
+            margin: 0;
+            padding: 0;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <section id="container"></section>
+    <template id="postTmp">
+        <article class="post">
+            <time></time>
+            <p></p>
+        </article>
+    </template>
+</body>
+</html>
