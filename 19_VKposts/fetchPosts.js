@@ -8,14 +8,14 @@ const getPostsQueryUrl = `https://api.vk.com/method/wall.get?callback=getPosts&a
 
 
 export default function fetchPosts() {
-    console.log(globalThis.offset)
-
     let script = document.createElement("script")
-    script.src = `${getPostsQueryUrl}&offset=${globalThis.offset}` //смещение для дальнейших подгрузок
-    globalThis.offset += BUNCH_COUNT
+    script.src = `${getPostsQueryUrl}&offset=${offset}` //смещение для дальнейших подгрузок
+    offset += BUNCH_COUNT
     
     script.classList.add("getPostsQuery") //для очищения html от следов предыдущих запросов
     Array.from(document.getElementsByClassName("getPostsQuery")).forEach(script => script.remove())
 
     document.head.append(script)
 }
+
+export {BUNCH_COUNT}
