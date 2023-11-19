@@ -1,8 +1,11 @@
-let offset = 0
-let isEnd = false   // false - подгрузка нужна, true - не нужна
+import {getLSItems, setLSItems} from './localStorageAPI.js'
 
 
-function getPosts(posts) {
+globalThis.offset = 0
+globalThis.isEnd = false   // false - подгрузка нужна, true - не нужна
+
+
+globalThis.getPosts = function (posts) {
     
     if(posts.response.count <= offset) isEnd = true; // подгружены ли посты до конца?
 
@@ -22,59 +25,58 @@ function getPosts(posts) {
     
     // Считать с localStorage
     let items = getLSItems()
-    const itemNames = {date: 'dates_loaded', text: 'texts_loaded'}
+    console.log(items, postsInfo)
 
     /* Если записи отсутствуют либо некорректны - перезаписать */
     if(!items) {
-        let texts = postsItemToArray(postsInfo, "text") 
-        let dates = postsItemToArray(postsInfo, "date")
-
-        // значения - целое число, запятая как разделитель допустима
-        localStorage.setItem(itemNames.date, dates)
-        // значения - произвольный текст, используем маловероятный разделитель
-        localStorage.setItem(itemNames.text, texts.join('\n\n\n\n\n'))
-        // вывести посты
+        setLSItems(postsInfo)
         showPostsInfo(postsInfo)
         return;
     }
 
 
-    let texts = items.texts
-    let dates = items.dates
-    // let dates = postsItemToArray(postsInfo, "date")
-    console.log(dates.length)    
-
     /** Если кэшировано больше, чем запрошено, или столько же - страница перезагружена
      * обновить смещение
      * вывести уже загруженные посты
      */
+    let texts = items.texts
+    let dates = items.dates
     if(dates.length >= offset) {
         offset = dates.length
         postsInfo = formItemsArray(items)
         showPostsInfo(postsInfo)
         return;
     } 
+
+
     /** Если кэшировано меньше, чем запрошено - новая порция данных - дописать
      * дописать данные
      * перезаписать localStorage
      */
     addItemsToArray(dates, postsInfo, "date")
     addItemsToArray(texts, postsInfo, "text")
+    setLSItems(formItemsArray(items))
 
-    localStorage.setItem(itemNames.date, dates)
-    localStorage.setItem(itemNames.text, texts.join('\n\n\n\n\n'))
-
-    // вывести часть постов
-    postsInfo = formItemsArray(items)
+    // добавить новые посты
     showPostsInfo(postsInfo)
+
     return;
 }
 
 
 function showPostsInfo(postsInfo) {
+
+    //вспомогательная ф-ция
+    const formatDate = (date) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        };
+        return `${date.toLocaleDateString("ru", options)} в ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`
+    }
+
     const fragment = document.createDocumentFragment();
-    console.log(postsInfo)
-    
     postsInfo.forEach(post => {
         post.date = new Date(post.date * 1000) //из миллисекунд в дату
         post.date = formatDate(post.date) //привести к нужному формату
@@ -85,71 +87,22 @@ function showPostsInfo(postsInfo) {
         article.querySelector("p").textContent = post.text
         fragment.append(article)
     })
-
     document.getElementById('container').appendChild(fragment);
-
-}
-function formatDate(date) {
-    const options = {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    };
-    return `${date.toLocaleDateString("ru", options)} в ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`
 }
 
-// загрузить данные из localStorage
-function getLSItems() {
-    const itemNames = {date: 'dates_loaded', text: 'texts_loaded'}
-    
-    let dates = localStorage.getItem(itemNames.date)
-    let texts = localStorage.getItem(itemNames.text)
-    if(!texts || !dates) return null; // если полей не существует
 
-    const sep = {date: ',', text: '\n\n\n\n\n'} //separators
-    let isContentWrong = false
-    // перевод строки в число - во избежание некорректного перевода обратно в строку
-    dates = dates.split(sep.date).map(date => {
-        if(isNaN(Number(date))) isContentWrong = true;
-        return Number(date)
-    })
-    texts = texts.split(sep.text)
-    // если разделитель не корректен || на месте даты - не число
-    if(isContentWrong || texts.length == 1 || dates.length == 1) return null;
-
-    return {dates, texts}
-}
-// загрузить данные постов в localStorage
-function setItemsToLS(postsInfo) {
-    let texts = postsItemToArray(postsInfo, "text")
-    let dates = postsItemToArray(postsInfo, "date")
-    
-    const itemNames = {date: 'dates_loaded', text: 'texts_loaded'}
-    const sep = {date: ',', text: '\n\n\n\n\n'} //separators
-    // значения - целое число, запятая как разделитель допустима
-    localStorage.setItem(itemNames.date, dates.join(sep.date))
-    // значения - произвольный текст, используем маловероятный разделитель
-    localStorage.setItem(itemNames.text, texts.join(sep.text))
-}
-
-function postsItemToArray(posts, name) {
-    let fieldArray = []
-    posts.forEach(post => {
-        fieldArray.push(post[name])
-    })
-    return fieldArray
-}
 // дописать в valArray данные posts по полю name
 function addItemsToArray(valArray, posts, name) {
-    // добавить новые посты
     posts.forEach((post) => {valArray.push(post[name])})
     return valArray
 }
 
 function formItemsArray(items) {
-    //получить имена полей
+    // получить имена полей
     let names = []
     for (const key in items) names.push(key)
+    
+    // сформировать массив объектов
     let posts = Array()
     for (let i = 0; i < items[names[0]].length; i++) {
         let post = {}
