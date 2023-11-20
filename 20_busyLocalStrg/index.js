@@ -1,3 +1,41 @@
+// Получить максимальный размер localStorage 
+// без потери данных
+export default function getLocalStorageBusySize(maxSize = null) {
+    let maxSizeLS
+
+    if(!maxSize) { //maxSize не известен
+        const saveData = getLocalStorageData()
+        maxSizeLS = getLocalStorageSizeKB()*1000 // получить в Байтах
+        localStorage.clear()
+        setLocalStorageData(saveData)
+    } else {
+        maxSizeLS = maxSize //maxSize известен
+    }
+    
+    // для оптимизации повторного использования
+    return (dataObj = saveData) => {
+        // Получить размер занятой в localStorage памяти 
+        let size = 0;
+        for (const key in dataObj) {
+            size += new Blob([dataObj[key]]).size; // (в Байтах)
+        }
+        return {busy: size, max: maxSizeLS};
+    }
+}
+
+
+
+// const getLSBusySize = getLocalStorageBusySize()
+// let strgInfo = getLSBusySize( getLocalStorageData() )
+// console.log(`${strgInfo.busy} / ${strgInfo.max}`)
+
+// window.addEventListener("storage", () => {
+//     strgInfo = getLSBusySize( getLocalStorageData() )
+//     console.log(`${strgInfo.busy} / ${strgInfo.max} (КБ)`)
+// })
+
+
+
 // Получить объём localStorage без сохранения данных
 function getLocalStorageSizeKB() {
     function getLocalStorageSizeMB() {
@@ -40,7 +78,7 @@ function getLocalStorageSizeKB() {
     })()
 }
 
-// Сохранить данные из localStorage
+// Получить данные из localStorage
 function getLocalStorageData() {
     return JSON.parse(JSON.stringify(localStorage))
 }
@@ -53,31 +91,7 @@ function setLocalStorageData(data) {
     }
 }
 
-function getLocalStorageBusySize() {
-    // Получить максимальный размер localStorage 
-    // без потери данных
-    let saveData = getLocalStorageData()
-    const maxSizeLS = getLocalStorageSizeKB()*1000 // получить в Байтах
-    localStorage.clear()
-    setLocalStorageData(saveData)
 
-    // для оптимизации повторного использования
-    return (dataObj = saveData) => {
-        // Получить размер занятой в localStorage памяти
-        let size = 0;
-        for (const key in dataObj) {
-            size += new Blob([dataObj[key]]).size;
-        }
-        return {busy: size, max: maxSizeLS};
-    }
+export {
+    getLocalStorageData
 }
-
-const getLSBusySize = getLocalStorageBusySize()
-let strgInfo = getLSBusySize( getLocalStorageData() )
-console.log(`${strgInfo.busy} / ${strgInfo.max}`)
-
-window.addEventListener("storage", () => {
-    strgInfo = getLSBusySize( getLocalStorageData() )
-    console.log(`${strgInfo.busy} / ${strgInfo.max} (КБ)`)
-})
-
