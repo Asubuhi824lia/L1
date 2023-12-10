@@ -10,12 +10,17 @@
         body {
             display: flex;
             justify-content: center;
-            background-color: #EDEEF0;
         }
         #container {
             display: flex;
             flex-direction: column;
-            width: min(90%, 550px);
+
+            height: 90vh;
+            margin: 20px;
+            overflow-y: scroll;
+            background-color: #d8d9db;
+            padding: 10px 50px 0px 50px;
+            border: 1px solid gray;
         }
         .post {
             margin-top: 15px;
@@ -29,7 +34,7 @@
             box-shadow: 2px #818C99;
         }
         .post time {
-            color: #818C99;
+            color: #7f7f81;
         }
         .post p {
             margin: 0;
